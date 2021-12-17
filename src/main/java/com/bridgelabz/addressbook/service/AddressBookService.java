@@ -37,7 +37,7 @@ public class AddressBookService {
         return modelMapper.map(addressBook, AddressBookDto.class);
     }
 
-    private AddressBook findIdPresentOrNot(int id) {
+    public AddressBook findIdPresentOrNot(int id) {
         return addressBookRepo.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
