@@ -12,6 +12,13 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Purpose: To Define Service Class for CRUD Operations
+ *
+ * @author : Sonali G
+ * @since : 13-12-2021
+ */
+
 @Service
 public class AddressBookService {
     private static final String CONTACT_ADDED_SUCCESSFULLY = "Contact Added Successfully";
@@ -24,6 +31,11 @@ public class AddressBookService {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Purpose : To Get All the Contacts
+     *
+     * @return list of Contacts
+     */
     public List<AddressBookDto> getAllContact() {
         return addressBookRepo.findAll()
                 .stream()
@@ -31,22 +43,46 @@ public class AddressBookService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Purpose : To Get Contact By id
+     *
+     * @param id for searching in repo
+     * @return Contact Dto
+     */
     public AddressBookDto getContactById(int id) {
         findIdPresentOrNot(id);
         AddressBook addressBook = addressBookRepo.findById(id).get();
         return modelMapper.map(addressBook, AddressBookDto.class);
     }
 
+    /**
+     * Purpose To Check Given id Present Or Not
+     *
+     * @param id for check
+     * @return AddressBook Entity
+     */
     public AddressBook findIdPresentOrNot(int id) {
         return addressBookRepo.findById(id).orElseThrow(EntityNotFoundException::new);
     }
-
+    /**
+     * Purpose To Add Contact in Repository
+     *
+     * @param addressBookDto given dto for add in repository
+     * @return Success Message for Add
+     */
     public String addContact(AddressBookDto addressBookDto) {
         AddressBook addressBook = modelMapper.map(addressBookDto, AddressBook.class);
         addressBookRepo.save(addressBook);
         return CONTACT_ADDED_SUCCESSFULLY;
     }
 
+    /**
+     * Purpose To Update Existing Contact
+     *
+     * @param id             for search existing contact
+     * @param addressBookDto for update
+     * @return success message for update
+     */
     public String updateContact(int id, AddressBookDto addressBookDto) {
         AddressBook addressBook = findIdPresentOrNot(id);
         BeanUtils.copyProperties(addressBookDto, addressBook);
@@ -54,6 +90,12 @@ public class AddressBookService {
         return CONTACT_UPDATED_SUCCESSFULLY;
     }
 
+    /**
+     * Purpose To delete Existing Contact
+     *
+     * @param id to search for existing data in repo
+     * @return success message for delete
+     */
     public String deleteContactById(int id) {
         AddressBook addressBook = findIdPresentOrNot(id);
         addressBookRepo.delete(addressBook);

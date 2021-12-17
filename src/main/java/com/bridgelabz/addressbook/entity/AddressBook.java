@@ -7,6 +7,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Purpose: To Get The Basic Structure of Data
+ *
+ * @author : Sonali G
+ * @since : 13-12-2021
+ */
+
 @Entity
 @Data
 public class AddressBook {
